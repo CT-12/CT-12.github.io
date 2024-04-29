@@ -1,0 +1,1 @@
+a:hover{cursor:pointer;background:linear-gradient(to right,#03a9f4,#f441a5,#ffeb3b,#09a8f4);background-size:400%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:streamer 8s infinite}@keyframes streamer{to{background-position:-400% 0}}#myImage{width:20%}*{text-decoration:none!important;font-family:Reddit Mono}#app{background-color:#ecf0f3}
