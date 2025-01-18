@@ -1,0 +1,117 @@
+@charset "UTF-8";
+.profile {
+  display: flex;
+  flex-direction: column;
+  /* 垂直排列 */
+  align-items: center;
+  /* 水平置中 */ }
+
+#my-photo {
+  width: 150px;
+  /* 圓形的直徑 */
+  height: 150px;
+  /* 圓形的直徑 */
+  border-radius: 50%;
+  /* 將容器變成圓形 */
+  overflow: hidden;
+  /* 隱藏超出圓形的部分 */
+  background-color: #ccc;
+  /* 如果圖片未加載，作為占位背景 */ }
+  #my-photo img {
+    width: 100%;
+    /* 確保圖片足夠大以覆蓋圓形 */
+    height: auto;
+    /* 維持圖片的寬高比 */
+    object-fit: cover;
+    /* 裁剪圖片以填滿容器 */
+    object-position: top;
+    /* 聚焦於圖片的頂部（通常是頭部） */ }
+
+a {
+  text-decoration: none; }
+
+body {
+  background-color: #f5f5fa;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  font-family: 'Reddit Mono'; }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  /* 左邊佔 1/5，右邊佔 4/5 */
+  width: 90%;
+  height: 100vh;
+  /* 佔滿整個視窗高度 */
+  margin: 40px auto; }
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 50px;
+  /* 元素之間的間距 */ }
+
+.main-content {
+  padding: 20px; }
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  /* 卡片之間的間距 */
+  align-items: center;
+  /* 水平置中 */ }
+
+.card {
+  display: block;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+  width: 80%;
+  padding: 20px;
+  transition: transform 0.2s, box-shadow 0.2s; }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.15); }
+  .card h1 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333; }
+  .card p {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 1em;
+    line-height: 1.5; }
+
+.sidebarList {
+  display: flex;
+  flex-direction: column;
+  /* 垂直排列 */
+  align-items: center;
+  gap: 20px;
+  /* 元素之間的間距 */ }
+
+.sidebarItem:hover, .sidebarItem:visited {
+  cursor: pointer;
+  /*背景漸變*/
+  background: linear-gradient(to right, #03a9f4, #f441a5, #ffeb3b, #09a8f4);
+  /*背景漸變色大小*/
+  background-size: 400%;
+  /*
+        將區塊?的文字作為裁剪範圍向外裁剪，
+        文字的背景就是區塊的背景，
+        文字之外的區域都會被裁剪掉。
+        需要搭配color:
+        簡單來說就是讓文字有流光效果而不是背景
+        */
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: streamer 8s infinite; }
+
+/*定義動畫*/
+@keyframes streamer {
+  100% {
+    /*背景位置*/
+    background-position: -400% 0; } }
