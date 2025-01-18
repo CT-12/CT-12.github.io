@@ -115,3 +115,55 @@ body {
   100% {
     /*背景位置*/
     background-position: -400% 0; } }
+
+.content {
+  width: 50%;
+  margin: 50px auto; }
+
+pre {
+  background-color: #282c34;
+  padding: 15px;
+  border-radius: 8px;
+  overflow: auto;
+  margin: 20px 0;
+  font-size: 14px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+  pre code {
+    color: #FFE153;
+    background-color: transparent;
+    padding: 0;
+    /* 移除內邊距 */
+    border: none;
+    /* 無邊框 */ }
+
+code {
+  background-color: #f5f5f5;
+  color: #d63384;
+  padding: 2px 4px;
+  border-radius: 4px;
+  border: 1px solid #e1e1e1;
+  font-size: 90%; }
+
+pre code .keyword {
+  color: #c678dd;
+  font-weight: bold; }
+
+pre code .string {
+  color: #98c379; }
+
+pre code .number {
+  color: #d19a66; }
+
+pre code .comment {
+  color: #5c6370;
+  font-style: italic; }
+
+pre code .function {
+  color: #61afef; }
+
+@media (max-width: 768px) {
+  pre {
+    font-size: 12px;
+    padding: 10px; }
+  code {
+    font-size: 85%; } }
