@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS start-->
+     <!-- Uncomment the following line to use debug mode -->
+     <link rel="stylesheet" href="../../assets/style.css">
+     <!-- Uncomment the following line to use production mode -->
+     <!-- <link rel="stylesheet" href="/assets/style.css"> -->
+    <!-- CSS end-->
+     <!-- Google font start-->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap" rel="stylesheet">
+     <!-- Google font end-->
+    <title>CT's Website</title>
+</head>
+<body>
+<div class="content-container">
+    <div class="content">
+        2024-01-18
+        <hr>
+        <!-- 
+date: 2024-01-18 
+Tag: 
+    - Rust
+-->
+
+<h1>Mac</h1>
+<h2>Install rustup</h2>
+<p><code>rustup</code> 是負責管理及安裝 rust 的工具。他會將所有工具安裝在 <code>~/.cargo/bin</code> 目錄當中，安裝的工具包括 <code>rustc</code>、<code>cargo</code>、<code>rustup</code>。</p>
+<p>在 mac 中可以直接用 brew 進行安裝：</p>
+<pre><code class="language-shell">brew install rustup
+</code></pre>
+<p>或是用官網提供的方式進行安裝：</p>
+<pre><code class="language-shell">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+</code></pre>
+<p>安裝完成後可以試試看印出版本資訊來確認是否安裝成功：</p>
+<pre><code class="language-shell">rustc --version
+</code></pre>
+<h2>Uninstall <code>rustup</code></h2>
+<p>如果用 brew 安裝的話可以執行以下指令解除安裝</p>
+<pre><code class="language-shell">brew uninstall rustup
+</code></pre>
+<p>如果是用其他方法，如，<code>curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</code> 進行安裝的話，可以試試看下面指令：</p>
+<pre><code class="language-shell">rustup self uninstall
+</code></pre>
+    </div>
+</div>
+</body>
+</html>
