@@ -63,6 +63,15 @@ body {
   align-items: center;
   /* 水平置中 */ }
 
+table {
+  border-collapse: collapse;
+  width: 100%; }
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left; }
+
 .card {
   display: block;
   background-color: #ffffff;
