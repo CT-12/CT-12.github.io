@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS start-->
+     <!-- Uncomment the following line to use debug mode -->
+     <link rel="stylesheet" href="../../assets/style.css">
+     <!-- Uncomment the following line to use production mode -->
+     <!-- <link rel="stylesheet" href="/assets/style.css"> -->
+    <!-- CSS end-->
+     <!-- Google font start-->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap" rel="stylesheet">
+     <!-- Google font end-->
+    <title>CT's Website</title>
+</head>
+<body>
+<div class="content-container">
+    <div class="content">
+        <!-- 
+date: 2024-01-19
+update: 2024-01-19
+Tag: 
+    - Rust
+-->
+
+<p>在 Rust 中，<strong>表達式</strong>（expression）和<strong>陳述式</strong>（statement）是兩種基本的程式構造，它們在語法和行為上的區別如下：</p>
+<hr />
+<h3><strong>表達式（Expression）</strong></h3>
+<p><strong>表達式是會產生值的語法結構</strong>，它總是會計算出一個值（或者是單元類型 <code>()</code>），並且可以嵌套在其他地方使用。</p>
+<h4>特點：</h4>
+<ol>
+<li><strong>會有值</strong>：表達式的重點是計算值。</li>
+<li><strong>可以嵌套</strong>：表達式可以出現在任何需要值的地方（如變數初始化、函數的參數、條件判斷等）。</li>
+<li><strong>無需分號結尾</strong>：如果在語句中，表達式通常不能有分號結尾。分號會將其變為陳述式。</li>
+</ol>
+<h4>常見的表達式：</h4>
+<ul>
+<li><strong>字面量</strong>：<code>42</code>，<code>true</code>，<code>"hello"</code></li>
+<li><strong>函數呼叫</strong>：<code>some_function()</code></li>
+<li><strong>運算</strong>：<code>1 + 2</code></li>
+<li><strong>區塊表達式</strong>：<code>{ let x = 2; x * 3 }</code></li>
+<li><strong>if 表達式</strong>：<code>if x &gt; 5 { 10 } else { 20 }</code></li>
+<li><strong>loop 表達式</strong>（返回值使用 <code>break</code>）：<code>loop { break 42 }</code></li>
+</ul>
+<h4>範例：</h4>
+<pre><code class="language-rust">fn main() {
+    let x = 5 + 3;       // `5 + 3` 是一個表達式，結果是 8
+    let y = { x * 2 };   // `{ x * 2 }` 是區塊表達式，結果是 16
+    println!(&quot;{}&quot;, y);   // 輸出 16
+}
+</code></pre>
+<hr />
+<h3><strong>陳述式（Statement）</strong></h3>
+<p><strong>陳述式是用來執行某些操作的語法結構</strong>，但它不會返回值。</p>
+<h4>特點：</h4>
+<ol>
+<li><strong>不返回值</strong>：陳述式僅表示執行動作，不能用於計算值。</li>
+<li><strong>通常以分號結尾</strong>：陳述式需要用分號 <code>;</code> 結尾（表達式加分號會變成陳述式）。</li>
+<li><strong>不能嵌套在需要值的地方</strong>：因為陳述式不返回值，不能直接用於賦值或作為函數的參數。</li>
+</ol>
+<h4>常見的陳述式：</h4>
+<ul>
+<li><strong>變數綁定</strong>：<code>let x = 5;</code> （<code>let</code> 本身是陳述式，但等號右側是表達式）。</li>
+<li><strong>表達式加分號</strong>：如 <code>x + 1;</code>，這是一個表達式轉為陳述式的例子。</li>
+<li><strong>函數定義</strong>：<code>fn my_function() {}</code></li>
+</ul>
+<h4>範例：</h4>
+<pre><code class="language-rust">fn main() {
+    let x = 5;       // 變數綁定是陳述式
+    x + 1;           // 表達式 `x + 1` 加上分號後變為陳述式，執行但無返回值
+    println!(&quot;{}&quot;, x);
+}
+</code></pre>
+<hr />
+<h3><strong>表達式與陳述式的結合</strong></h3>
+<ul>
+<li>表達式可以構成陳述式（通過加上分號）。</li>
+<li>但陳述式不能構成表達式，因為它不會產生值。</li>
+</ul>
+<h4>範例對比：</h4>
+<pre><code class="language-rust">fn main() {
+    let x = 5;       // 陳述式
+    let y = {
+        let z = 10;  // 陳述式
+        z * 2        // 表達式，這是區塊的最後一行，返回值為 20
+    };
+    println!(&quot;{}&quot;, y); // 輸出 20
+}
+</code></pre>
+<hr />
+<h3><strong>關鍵區別：是否有值</strong></h3>
+<p>| <strong>特徵</strong>       | <strong>表達式</strong>                 | <strong>陳述式</strong>                       |
+|----------------|----------------------------|-----------------------------------|
+| <strong>返回值</strong>     | 總是有值                   | 沒有值（或者返回單位值 <code>()</code>）    |
+| <strong>分號</strong>       | 通常不加分號               | 必須以分號結尾                   |
+| <strong>嵌套能力</strong>   | 可以嵌套使用               | 無法嵌套使用                     |
+| <strong>範例</strong>       | <code>5 + 3</code>, <code>{ x * 2 }</code>       | <code>let x = 5;</code>, <code>x + 1;</code>           |</p>
+<p>Rust 中，表達式是構建程式邏輯的核心，而陳述式則用於組織和執行操作。</p>
+<hr />
+<p>此筆記僅是為了紀錄學習過程，如欲完整學習 rust，請去看官方提供的文件，那裡有更加完善的學習資源。筆記內容為自己的理解因此可能存在錯誤，如有錯誤敬請見諒。</p>
+    </div>
+</div>
+</body>
+</html>
