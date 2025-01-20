@@ -1,4 +1,95 @@
 @charset "UTF-8";
+.admonition.note {
+  background-color: #e7f3fe;
+  border-left: 4px solid #b3d4fc;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 1.5rem 0; }
+  .admonition.note .admonition-title {
+    color: #3178c6;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    margin-right: 10px;
+    font-size: 1.1rem; }
+  .admonition.note p {
+    margin: 0;
+    line-height: 1.6; }
+
+.admonition.warning {
+  background-color: #fff4e5;
+  border-left: 4px solid #ffecb3;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 1.5rem 0; }
+  .admonition.warning .admonition-title {
+    color: #d48806;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    margin-right: 10px;
+    font-size: 1.1rem; }
+  .admonition.warning p {
+    margin: 0;
+    line-height: 1.6; }
+
+.admonition.success {
+  background-color: #e6ffed;
+  border-left: 4px solid #b7eb8f;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 1.5rem 0; }
+  .admonition.success .admonition-title {
+    color: #389e0d;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    margin-right: 10px;
+    font-size: 1.1rem; }
+  .admonition.success p {
+    margin: 0;
+    line-height: 1.6; }
+
+.admonition.error {
+  background-color: #ffe6e6;
+  border-left: 4px solid #ffa39e;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 1.5rem 0; }
+  .admonition.error .admonition-title {
+    color: #cf1322;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    margin-right: 10px;
+    font-size: 1.1rem; }
+  .admonition.error p {
+    margin: 0;
+    line-height: 1.6; }
+
+.admonition {
+  display: flex;
+  align-items: flex-start; }
+  .admonition .admonition-icon {
+    margin-right: 0.75rem;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    color: inherit; }
+  .admonition .admonition-content {
+    flex: 1; }
+
+@media (max-width: 600px) {
+  .admonition {
+    padding: 0.75rem 1rem; }
+    .admonition .admonition-title {
+      font-size: 1rem; }
+    .admonition .admonition-icon {
+      font-size: 1.2rem; } }
+
 .profile {
   display: flex;
   flex-direction: column;

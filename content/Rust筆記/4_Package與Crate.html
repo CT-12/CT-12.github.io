@@ -33,9 +33,11 @@ Tag:
 <p>Package 是從 <code>cargo new &lt;Package Name&gt;</code> 指令所產生。裡面會存放一個 <code>Cargo.toml</code> 檔案來暗示他是一個 Package。一個 Package 中會有一個或多個 crates</p>
 <h1>Crate</h1>
 <p>Crate 是 rust 中的最小編譯單位，每個 crate 都會有一個 crate root，它是編譯時的入口點。</p>
-<p>Crate 分成兩種：
-- 第一種是<code>執行檔 crate（Binary crate）</code>。這種類型的 crate 的入口點(crate root)會是 <code>src/main.rs</code> 文件。也就是 rust 會從 <code>src/main.rs</code> 進入，並將其編譯成一個與 package 名稱相同的二進制檔案。
-- 第二種是<code>函式庫 crate (Library crate)</code>。這種類型的 crate 的入口點(crate root)會是 <code>src/lib.rs</code> 文件。也就是 rust 會從 <code>src/lib.rs</code> 進入，並將其編譯成一個與 package 名稱相同的函式庫檔案。</p>
+<p>Crate 分成兩種：</p>
+<ul>
+<li>第一種是<code>執行檔 crate（Binary crate）</code>。這種類型的 crate 的入口點(crate root)會是 <code>src/main.rs</code> 文件。也就是 rust 會從 <code>src/main.rs</code> 進入，並將其編譯成一個與 package 名稱相同的二進制檔案。</li>
+<li>第二種是<code>函式庫 crate (Library crate)</code>。這種類型的 crate 的入口點(crate root)會是 <code>src/lib.rs</code> 文件。也就是 rust 會從 <code>src/lib.rs</code> 進入，並將其編譯成一個與 package 名稱相同的函式庫檔案。</li>
+</ul>
 <p>值得注意的地方是，一個 package 可以有一個或多個 binary crate，但是最多只能有一個 library crate（換句話說就是只能有一個 <code>src/lib.rs</code> 檔案）。並且，一個 package 中至少要有一個 crate，不管是 binary 還是 library。</p>
 <p>前面提到 binary crate 可以有一個或多個。如果 package 只有一個 <code>src/main.rs</code> 檔案，rust 就會從 <code>src/main.rs</code> 進入並編譯成一個 binary crate。但如果需要多個 binary crates (也就是多個二進制執行檔)，可以在 <code>src/bin/</code> 資料夾下新增檔案，每個檔案都會被視為獨立的 binary crate。例如，現在有個檔案結構：</p>
 <pre><code>package/
@@ -55,9 +57,10 @@ Tag:
 available binaries: bin_crate_1, bin_crate_2, package
 </code></pre>
 <p>因為 rust 不知道要編譯哪個 binary crate，所以他會建議你使用 <code>--bin</code> 來指定你要編譯的 binary crate。同時他還會列出所有可以編譯的 binary crates。</p>
-<blockquote>
+<div class="admonition note">
+<p class="admonition-title">Tips</p>
 <p>仔細看會發現他列出的其中一個 binary crate 叫做 package，它所對應的入口文件就是 main.rs！因為 main.rs 預設會編譯出與 package 同名的 binary crate。</p>
-</blockquote>
+</div>
 <p>總結：</p>
 <p>Crate 是入口文件被編譯過後的檔案，<code>lib.rs</code> 會編譯成 library crate。<code>main.rs</code> 會編譯成 binary crate。</p>
 <h1>Mod (模組)</h1>
