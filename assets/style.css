@@ -163,6 +163,77 @@ th, td {
   padding: 8px;
   text-align: left; }
 
+pre {
+  line-height: 1.25; }
+
+td.linenos .normal, td.linenos span.linenos {
+  color: inherit;
+  background-color: transparent;
+  padding: 0 5px; }
+
+td.linenos .special, td.linenos span.linenos.special {
+  color: #d4d4d4;
+  background-color: #264f78;
+  padding: 0 5px; }
+
+.codehilite {
+  background: #1e1e1e; }
+  .codehilite .hll {
+    background-color: #31363f; }
+
+.codehilite .c, .codehilite .ch, .codehilite .cm, .codehilite .c1, .codehilite .cs, .codehilite .cpf {
+  color: #6a9955;
+  font-style: italic; }
+
+.codehilite .err {
+  border: 1px solid #f44747; }
+
+.codehilite .k, .codehilite .kc, .codehilite .kd, .codehilite .kn, .codehilite .kp, .codehilite .kr, .codehilite .nt {
+  color: #c586c0;
+  font-weight: bold; }
+
+.codehilite .kt {
+  color: #569cd6; }
+
+.codehilite .o, .codehilite .ow {
+  color: #dcdcaa;
+  font-weight: bold; }
+
+.codehilite .na {
+  color: #9cdcfe; }
+
+.codehilite .nb, .codehilite .bp {
+  color: #569cd6; }
+
+.codehilite .nc, .codehilite .nn, .codehilite .fm, .codehilite .nf {
+  color: #dcdcaa;
+  font-weight: bold; }
+
+.codehilite .no, .codehilite .ni, .codehilite .nv {
+  color: #4ec9b0; }
+
+.codehilite .s, .codehilite .sa, .codehilite .sb, .codehilite .sc, .codehilite .s2, .codehilite .s1, .codehilite .sh, .codehilite .sx, .codehilite .dl {
+  color: #ce9178; }
+
+.codehilite .se, .codehilite .si, .codehilite .sr {
+  color: #d7ba7d; }
+
+.codehilite .gu {
+  color: #c586c0;
+  font-weight: bold; }
+
+.codehilite .gi {
+  color: #6a9955; }
+
+.codehilite .gd {
+  color: #f44747; }
+
+.codehilite .w {
+  color: #d4d4d4; }
+
+.codehilite .m, .codehilite .mb, .codehilite .mf, .codehilite .mh, .codehilite .mi, .codehilite .mo, .codehilite .il {
+  color: #b5cea8; }
+
 .card {
   display: block;
   background-color: #ffffff;

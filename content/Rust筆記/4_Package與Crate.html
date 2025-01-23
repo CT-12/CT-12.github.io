@@ -40,22 +40,25 @@ Tag:
 </ul>
 <p>值得注意的地方是，一個 package 可以有一個或多個 binary crate，但是最多只能有一個 library crate（換句話說就是只能有一個 <code>src/lib.rs</code> 檔案）。並且，一個 package 中至少要有一個 crate，不管是 binary 還是 library。</p>
 <p>前面提到 binary crate 可以有一個或多個。如果 package 只有一個 <code>src/main.rs</code> 檔案，rust 就會從 <code>src/main.rs</code> 進入並編譯成一個 binary crate。但如果需要多個 binary crates (也就是多個二進制執行檔)，可以在 <code>src/bin/</code> 資料夾下新增檔案，每個檔案都會被視為獨立的 binary crate。例如，現在有個檔案結構：</p>
-<pre><code>package/
-├── Cargo.toml
-└── src/
-    ├── main.rs
-    ├── bin/
-    │   ├── bin_crate_1.rs
-    │   └── bin_crate_2.rs
-    └── lib.rs
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">Cargo</span><span class="p">.</span><span class="nx">toml</span>
+<span class="err">└──</span><span class="w"> </span><span class="nx">src</span><span class="o">/</span>
+<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="nx">main</span><span class="p">.</span><span class="nx">rs</span>
+<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="nx">bin</span><span class="o">/</span>
+<span class="w">    </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">bin_crate_1</span><span class="p">.</span><span class="nx">rs</span>
+<span class="w">    </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">bin_crate_2</span><span class="p">.</span><span class="nx">rs</span>
+<span class="w">    </span><span class="err">└──</span><span class="w"> </span><span class="nx">lib</span><span class="p">.</span><span class="nx">rs</span>
+</code></pre></div>
+
 <p>如果直接輸入：</p>
-<pre><code class="language-shell">cargo run
-</code></pre>
+<div class="codehilite"><pre><span></span><code>cargo<span class="w"> </span>run
+</code></pre></div>
+
 <p>會出現錯誤：</p>
-<pre><code class="language-shell">error: `cargo run` could not determine which binary to run. Use the `--bin` option to specify a binary, or the `default-run` manifest key.
-available binaries: bin_crate_1, bin_crate_2, package
-</code></pre>
+<div class="codehilite"><pre><span></span><code>error:<span class="w"> </span><span class="sb">`</span>cargo<span class="w"> </span>run<span class="sb">`</span><span class="w"> </span>could<span class="w"> </span>not<span class="w"> </span>determine<span class="w"> </span>which<span class="w"> </span>binary<span class="w"> </span>to<span class="w"> </span>run.<span class="w"> </span>Use<span class="w"> </span>the<span class="w"> </span><span class="sb">`</span>--bin<span class="sb">`</span><span class="w"> </span>option<span class="w"> </span>to<span class="w"> </span>specify<span class="w"> </span>a<span class="w"> </span>binary,<span class="w"> </span>or<span class="w"> </span>the<span class="w"> </span><span class="sb">`</span>default-run<span class="sb">`</span><span class="w"> </span>manifest<span class="w"> </span>key.
+available<span class="w"> </span>binaries:<span class="w"> </span>bin_crate_1,<span class="w"> </span>bin_crate_2,<span class="w"> </span>package
+</code></pre></div>
+
 <p>因為 rust 不知道要編譯哪個 binary crate，所以他會建議你使用 <code>--bin</code> 來指定你要編譯的 binary crate。同時他還會列出所有可以編譯的 binary crates。</p>
 <div class="admonition note">
 <p class="admonition-title">Tips</p>
@@ -66,7 +69,7 @@ available binaries: bin_crate_1, bin_crate_2, package
 <h1>Mod (模組)</h1>
 <p>首先先快速了解一下編譯器會如何編譯模組，以下例子來自 Rust 程式設計語言的 7.2 章節，想看程式碼範例最好去那邊看。</p>
 <p>目錄結構：</p>
-<pre><code>backyard
+<div class="codehilite"><pre><span></span><code>backyard
 ├── Cargo.lock
 ├── Cargo.toml
 └── src
@@ -74,7 +77,8 @@ available binaries: bin_crate_1, bin_crate_2, package
     │   └── vegetables.rs
     ├── garden.rs
     └── main.rs
-</code></pre>
+</code></pre></div>
+
 <ol>
 <li>一開始編譯器會尋找 crate 的源頭（函式庫 crate 的話，通常就是 <code>src/lib.rs</code>；執行檔 crate 的話，通常就是 <code>src/main.rs</code>）來編譯程式碼。</li>
 <li>在 crate 的入口檔案會需要<strong>宣告</strong>將使用的模組，不是想用就用，你還得先宣告！比方說你在 main.rs（執行檔 crate 的入口檔案）裡想使用 garden 模組 <code>mod garden</code>。編譯器會去以下幾個地方尋找 garden 模組的程式碼：<ul>

@@ -47,12 +47,13 @@ Tag:
 <li><strong>loop 表達式</strong>（返回值使用 <code>break</code>）：<code>loop { break 42 }</code></li>
 </ul>
 <h4>範例：</h4>
-<pre><code class="language-rust">fn main() {
-    let x = 5 + 3;       // `5 + 3` 是一個表達式，結果是 8
-    let y = { x * 2 };   // `{ x * 2 }` 是區塊表達式，結果是 16
-    println!(&quot;{}&quot;, y);   // 輸出 16
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">       </span><span class="c1">// `5 + 3` 是一個表達式，結果是 8</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">};</span><span class="w">   </span><span class="c1">// `{ x * 2 }` 是區塊表達式，結果是 16</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w">   </span><span class="c1">// 輸出 16</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <hr />
 <h3><strong>陳述式（Statement）</strong></h3>
 <p><strong>陳述式是用來執行某些操作的語法結構</strong>，但它不會返回值。</p>
@@ -69,12 +70,13 @@ Tag:
 <li><strong>函數定義</strong>：<code>fn my_function() {}</code></li>
 </ul>
 <h4>範例：</h4>
-<pre><code class="language-rust">fn main() {
-    let x = 5;       // 變數綁定是陳述式
-    x + 1;           // 表達式 `x + 1` 加上分號後變為陳述式，執行但無返回值
-    println!(&quot;{}&quot;, x);
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">       </span><span class="c1">// 變數綁定是陳述式</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">           </span><span class="c1">// 表達式 `x + 1` 加上分號後變為陳述式，執行但無返回值</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <hr />
 <h3><strong>表達式與陳述式的結合</strong></h3>
 <ul>
@@ -82,15 +84,16 @@ Tag:
 <li>但陳述式不能構成表達式，因為它不會產生值。</li>
 </ul>
 <h4>範例對比：</h4>
-<pre><code class="language-rust">fn main() {
-    let x = 5;       // 陳述式
-    let y = {
-        let z = 10;  // 陳述式
-        z * 2        // 表達式，這是區塊的最後一行，返回值為 20
-    };
-    println!(&quot;{}&quot;, y); // 輸出 20
-}
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">       </span><span class="c1">// 陳述式</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">  </span><span class="c1">// 陳述式</span>
+<span class="w">        </span><span class="n">z</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w">        </span><span class="c1">// 表達式，這是區塊的最後一行，返回值為 20</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"> </span><span class="c1">// 輸出 20</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <hr />
 <h3><strong>關鍵區別：是否有值</strong></h3>
 <table>
