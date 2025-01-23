@@ -45,12 +45,14 @@ Tag:
 }                               // r 的生命結束
 
 </code></pre>
-<p>從上面程式碼可以看到
-1.  <code>r</code> 活了整個 <code>main</code> 的時間
-2. <code>r</code> 活得比 <code>x</code> 還久
-3. <code>r</code> 拿了 <code>x</code> 的參考</p>
-<p>rust 會編譯錯誤，因為把一個活得不夠久的變數參考給了一個活得更久的變數，<code>x</code> 都沒了，<code>r</code> 手上的參考不就沒用了嗎！</p>
-<p>而下面的程式碼是可以的，雖然 <code>r</code> 還是活得比 <code>x</code> 久，但是 <code>r</code> 在 <code>x</code> 生命結束後就沒用過他的參考了，因此沒問題！</p>
+<p>從上面程式碼可以看到</p>
+<ol>
+<li><code>r</code>活了整個<code>main</code>的時間</li>
+<li><code>r</code>活得比<code>x</code>還久</li>
+<li><code>r</code>拿了<code>x</code>的參考</li>
+</ol>
+<p>rust 會編譯錯誤，因為把一個活得不夠久的變數參考給了一個活得更久的變數，<code>x</code>都沒了，<code>r</code>手上的參考不就沒用了嗎！</p>
+<p>而下面的程式碼是可以的，雖然<code>r</code>還是活得比<code>x</code>久，但是<code>r</code>在<code>x</code>生命結束後就沒用過他的參考了，因此沒問題！</p>
 <pre><code class="language-rust">fn main() {
     let r;                      // r 的生命開始
 
@@ -66,8 +68,8 @@ Tag:
 
 </code></pre>
 <h1>在函式中的生命週期</h1>
-<p>接下來就到這篇筆記的重點了，為什麼需要在函式簽名加上生命週期註釋。以下面程式碼為例，函式的參數有兩個，而且都是參考，並且函式的回傳值也是參考。在這種情況下，rust 編譯器並不清楚這個回傳的參考會是誰的，可能是 <code>x</code> 也可能是 <code>y</code>。</p>
-<p>Rust 編譯器之所以會需要知道這個是因為他必須確定這個回傳給 <code>result</code> 的參考在 <code>result</code> 使用的時候要是有效的。雖然我們可以很清楚的知道 <code>result</code> 會得到得參考不是 <code>string1</code> 就是 <code>string2</code>，並且不管是哪個都可以活到 <code>result</code> 使用的時候。但是編譯器並不知道這點，於是才需要我們手動加上生命週期註釋。</p>
+<p>接下來就到這篇筆記的重點了，為什麼需要在函式簽名加上生命週期註釋。以下面程式碼為例，函式的參數有兩個，而且都是參考，並且函式的回傳值也是參考。在這種情況下，rust 編譯器並不清楚這個回傳的參考會是誰的，可能是<code>x</code>也可能是<code>y</code>。</p>
+<p>Rust 編譯器之所以會需要知道這個是因為他必須確定這個回傳給<code>result</code>的參考在<code>result</code>使用的時候要是有效的。雖然我們可以很清楚的知道<code>result</code>會得到得參考不是<code>string1</code>就是<code>string2</code>，並且不管是哪個都可以活到<code>result</code>使用的時候。但是編譯器並不知道這點，於是才需要我們手動加上生命週期註釋。</p>
 <p>生命週期註釋並不會改變參數真正的生命週期，他只是用來將參數與回傳值關聯起來。聽起來有點抽象，接下來會以我的理解說明一次編譯器的心路歷程。</p>
 <p>當編譯器看到傳入函式的兩個參數是參考，並且回傳值也是參考時，他不知道哪個參考會被回傳，因此他也不知道這個回傳的參考能不能活到被使用得時候。這時候開發者就要主動加上生命週期註釋<code>'a</code>，<code>'a</code><strong>代表的是傳入的兩個參考之中生命週期比較短的那個生命週期</strong>。並且由於回傳值也被加上了<code>'a</code>，所以編譯器能夠確定這個回傳的值至少能活得跟<code>'a</code>一樣久。如此一來編譯器就能確定因為回傳的參考能夠活的跟生命週期較短的那個參考一樣，因此到時候使用這個回傳的參考就能保證是有效的。</p>
 <pre><code class="language-rust">fn longest&lt;'a&gt;(x: &amp;'a String, y: &amp;'a String) -&gt; &amp;'a String {
