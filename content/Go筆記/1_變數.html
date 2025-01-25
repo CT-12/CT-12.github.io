@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS start-->
+     <!-- Uncomment the following line to use debug mode -->
+     <link rel="stylesheet" href="../../assets/style.css">
+     <!-- Uncomment the following line to use production mode -->
+     <!-- <link rel="stylesheet" href="/assets/style.css"> -->
+    <!-- CSS end-->
+     <!-- Google font start-->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap" rel="stylesheet">
+     <!-- Google font end-->
+    <title>CT's Website</title>
+</head>
+<body>
+<div class="content-container">
+    <div class="content">
+        <!-- 
+date: 2024-01-25 
+update: 2024-01-25
+Tag: 
+    - Go
+-->
+<h1>1. 定義變數</h1>
+<p>用 var 來定義變數，跟其他語言不大箱同的是，Go 必須將型態宣告寫在後面。</p>
+<p><strong>如果要同時宣告不同的變數，也可以用小括弧把變數括起來，但是一定要換行</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+
+<span class="c1">// 第一種變數宣告方法</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="w"> </span><span class="kt">int</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">python</span><span class="p">,</span><span class="w"> </span><span class="nx">java</span><span class="w"> </span><span class="kt">bool</span>
+
+<span class="c1">// 第二種變數宣告方法</span>
+<span class="kd">var</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">x</span><span class="w"> </span><span class="kt">int</span>
+<span class="w">    </span><span class="nx">y</span><span class="w"> </span><span class="kt">int</span>
+<span class="w">    </span><span class="nx">z</span><span class="w"> </span><span class="kt">int</span>
+<span class="w">    </span><span class="nx">c</span><span class="w"> </span><span class="kt">bool</span>
+<span class="w">    </span><span class="nx">python</span><span class="w"> </span><span class="kt">bool</span>
+<span class="w">    </span><span class="nx">java</span><span class="w"> </span><span class="kt">bool</span>
+<span class="p">)</span>
+
+<span class="c1">// 第三種變數宣告方法</span>
+<span class="kd">var</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="nx">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;HI&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">(){</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">python</span><span class="p">,</span><span class="w"> </span><span class="nx">java</span><span class="p">)</span><span class="w"> </span><span class="c1">// Output: 0 0 0 false false false</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>2. 初始化變數</h1>
+<p>定義變數時可以直接賦予初始值，變數與賦予的值要互相對應。如果有初始化的話，型別就可以省略，變數會直接取用初始化的類型。</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">python</span><span class="p">,</span><span class="w"> </span><span class="nx">java</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;no!&quot;</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">python</span><span class="p">,</span><span class="w"> </span><span class="nx">java</span><span class="p">)</span><span class="w"> </span><span class="c1">// Output: 1 2 3 true false no!</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>3. 短變數宣告</h1>
+<p>可以在函數中使用「:=」 簡潔的為變數賦值不需要用 var 開頭。</p>
+<p>💡「:=」 不能用在函數外，函數外的每個語法都必須以關鍵字開始。</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">python</span><span class="p">,</span><span class="w"> </span><span class="nx">java</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;no!&quot;</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">z</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">python</span><span class="p">,</span><span class="w"> </span><span class="nx">java</span><span class="p">)</span><span class="w"> </span><span class="c1">// Output: 1 2 3 true false no!</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>4. 查詢變數型態</h1>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">(){</span>
+<span class="w">    </span><span class="nx">str</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;GOGOGO&quot;</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%T&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">str</span><span class="p">)</span><span class="w"> </span><span class="c1">// Output: string</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>5. 總結</h1>
+<div class="codehilite"><pre><span></span><code><span class="kd">var</span><span class="w"> </span><span class="nx">a</span><span class="w">  </span><span class="c1">// 不定型別的變數</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="c1">// 宣告成 int</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="c1">// 初始化同時宣告</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="c1">// a 跟 b 都是 int</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// var a, b = 0, &quot;&quot;</span>
+<span class="nx">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tacolin&quot;</span><span class="w"> </span><span class="c1">// 這樣就可以不同型別寫在同一行</span>
+<span class="kd">var</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">a</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="c1">// 記得要不同行，不然會錯</span>
+<span class="w">    </span><span class="nx">b</span><span class="w"> </span><span class="kt">int</span>
+<span class="w">    </span><span class="nx">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;hello&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+    </div>
+</div>
+</body>
+</html>
