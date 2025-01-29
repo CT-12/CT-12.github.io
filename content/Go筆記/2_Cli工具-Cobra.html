@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS start-->
+     <!-- Uncomment the following line to use debug mode -->
+     <link rel="stylesheet" href="../../assets/style.css">
+     <!-- Uncomment the following line to use production mode -->
+     <!-- <link rel="stylesheet" href="/assets/style.css"> -->
+    <!-- CSS end-->
+     <!-- Google font start-->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap" rel="stylesheet">
+     <!-- Google font end-->
+    <title>CT's Website</title>
+</head>
+<body>
+<div class="content-container">
+    <div class="content">
+        <!-- 
+date: 2024-01-29
+update: 2024-01-29
+Tag: 
+    - Go
+    - Cli
+    - Package
+-->
+
+<h1>Install</h1>
+<p>可以先用 <code>go install</code> 安裝 <code>cobra-cli</code> 的命令行工具</p>
+<div class="codehilite"><pre><span></span><code>go<span class="w"> </span>install<span class="w"> </span>github.com/spf13/cobra-cli@latest
+</code></pre></div>
+
+<h1>Introduction</h1>
+<p>Cobra 有三個部分</p>
+<ul>
+<li>Commands : 用來表示要執行的動作</li>
+<li>Args : 執行動作所需的參數</li>
+<li>Flags : 這些動作額外的行為</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 例如</span>
+
+git<span class="w"> </span>clone<span class="w"> </span>URL<span class="w"> </span>-bare
+
+<span class="c1"># git : 根命令</span>
+<span class="c1"># clone : 子命令，表示要執行的動作（Command）</span>
+<span class="c1"># URL : 執行該動作所需要的參數 (Arg)</span>
+<span class="c1"># -bare : 執行 clone 這個動作額外的行為 (Flag)</span>
+</code></pre></div>
+
+<h1>Start</h1>
+<p>假設我要做一個 Todo list 的命令行工具</p>
+<div class="codehilite"><pre><span></span><code>mkdir<span class="w"> </span>Todo
+<span class="nb">cd</span><span class="w"> </span>Todo
+go<span class="w"> </span>mod<span class="w"> </span>init<span class="w"> </span>Todo
+cobra-cli<span class="w"> </span>init<span class="w"> </span>
+</code></pre></div>
+
+<p>使用 cobra-cli 初始化專案後會在專案下看到以下檔案</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Todo</span><span class="o">/</span>
+<span class="o">|-</span><span class="n">cmd</span><span class="o">/</span>
+<span class="o">|</span><span class="w">  </span><span class="o">|-</span><span class="w"> </span><span class="n">root</span><span class="p">.</span><span class="k">go</span>
+<span class="o">|-</span><span class="w"> </span><span class="n">main</span><span class="p">.</span><span class="k">go</span>
+</code></pre></div>
+
+<p>在 main.go 就只是很單純的呼叫 root.go 的 Execute 函式。而在 root.go 會有根命令的一些內容。</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// In root.go</span>
+
+<span class="cm">/*</span>
+<span class="cm">Copyright © 2025 NAME HERE &lt;EMAIL ADDRESS&gt;</span>
+
+<span class="cm">*/</span>
+<span class="kn">package</span><span class="w"> </span><span class="nx">cmd</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+
+<span class="w">    </span><span class="s">&quot;github.com/spf13/cobra&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="nx">VERSION</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;0.1.0&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="nx">show_version</span><span class="w"> </span><span class="kt">bool</span>
+<span class="p">)</span>
+
+<span class="c1">// rootCmd represents the base command when called without any subcommands</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">rootCmd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">cobra</span><span class="p">.</span><span class="nx">Command</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Use</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;Todo&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Short</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;A brief description of your application&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Long</span><span class="p">:</span><span class="w"> </span><span class="s">`A longer description that spans multiple lines and likely contains</span>
+<span class="s">examples and usage of using your application. For example:</span>
+
+<span class="s">Cobra is a CLI library for Go that empowers applications.</span>
+<span class="s">This application is a tool to generate the needed files</span>
+<span class="s">to quickly create a Cobra application.`</span><span class="p">,</span>
+<span class="w">    </span><span class="c1">// Uncomment the following line if your bare application</span>
+<span class="w">    </span><span class="c1">// has an action associated with it:</span>
+<span class="w">    </span><span class="nx">Run</span><span class="p">:</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">cmd</span><span class="w"> </span><span class="o">*</span><span class="nx">cobra</span><span class="p">.</span><span class="nx">Command</span><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">show_version</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">cmd</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Version: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">VERSION</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">cmd</span><span class="p">.</span><span class="nx">Help</span><span class="p">()</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Here you will define your flags and configuration settings.</span>
+<span class="w">    </span><span class="c1">// Cobra supports persistent flags, which, if defined here,</span>
+<span class="w">    </span><span class="c1">// will be global for your application.</span>
+
+<span class="w">    </span><span class="c1">// rootCmd.PersistentFlags().StringVar(&amp;cfgFile, &quot;config&quot;, &quot;&quot;, &quot;config file (default is $HOME/.To-do-list.yaml)&quot;)</span>
+
+<span class="w">    </span><span class="c1">// Cobra also supports local flags, which will only run</span>
+<span class="w">    </span><span class="c1">// when this action is called directly.</span>
+<span class="w">    </span><span class="nx">rootCmd</span><span class="p">.</span><span class="nx">Flags</span><span class="p">().</span><span class="nx">BoolVarP</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">show_version</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;version&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;v&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Show version&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Execute adds all child commands to the root command and sets flags appropriately.</span>
+<span class="c1">// This is called by main.main(). It only needs to happen once to the rootCmd.</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">Execute</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">rootCmd</span><span class="p">.</span><span class="nx">Execute</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">os</span><span class="p">.</span><span class="nx">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>在 init 函式中可以定義 Flag。而 Run 則是使用根命令時會執行的函式，其中在函式簽名裡有個 <code>args</code>，傳給命令的參數會在裡面。</p>
+<h2>新增子命令</h2>
+<p>如果想要有子命令可以用下面的指令創建：</p>
+<div class="codehilite"><pre><span></span><code>cobra-cli<span class="w"> </span>add<span class="w"> </span>&lt;New<span class="w"> </span>Command&gt;
+</code></pre></div>
+
+<p>這個指令會在 <code>cmd/</code> 目錄下創建一個與子命令同名的新的檔案，同時在該檔案會看到： </p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// 假設子命令名稱叫 show </span>
+<span class="c1">// 在 cmd/show.go 會看到在 init 函式中子命令被加到根命令</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">rootCmd</span><span class="p">.</span><span class="nx">AddCommand</span><span class="p">(</span><span class="nx">showCmd</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>接下來就可以在子命令的 Run 定義要執行的動作了</p>
+<h1>References</h1>
+<ol>
+<li><a href="https://blog.csdn.net/zy010101/article/details/127397143">go命令行库-cobra</a></li>
+<li><a href="https://xie.infoq.cn/article/915006cf3760c99ad0028d895">万字长文——Go 语言现代命令行框架 Cobra 详解</a></li>
+</ol>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS start-->
+     <!-- Uncomment the following line to use debug mode -->
+     <link rel="stylesheet" href="../../assets/style.css">
+     <!-- Uncomment the following line to use production mode -->
+     <!-- <link rel="stylesheet" href="/assets/style.css"> -->
+    <!-- CSS end-->
+     <!-- Google font start-->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap" rel="stylesheet">
+     <!-- Google font end-->
+    <title>CT's Website</title>
+</head>
+<body>
+<div class="content-container">
+    <div class="content">
+        <!-- 
+date: 2024-01-27 
+update: 2024-01-27
+Tag: 
+    - Go
+    - File
+-->
+
+<p>os package 比較好用，所以我用這個來操作文件</p>
+<h1>創建文件</h1>
+<p>如果檔案存在內容會被清空</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+</code></pre></div>
+
+<h1>開啟文件</h1>
+<div class="codehilite"><pre><span></span><code><span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">filePath</span><span class="p">)</span>
+</code></pre></div>
+
+<h1>讀取文件內容</h1>
+<p>學著用 byte 和 buffer 比較好…</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">file</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">filePath</span><span class="p">)</span>
+<span class="k">defer</span><span class="w"> </span><span class="nx">file</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="nx">buf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="kt">string</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">len</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">file</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span><span class="p">{</span>
+<span class="w">        </span><span class="k">break</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">result</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">[:</span><span class="nx">len</span><span class="p">])</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>寫入檔案</h1>
+<h2>1. 使用 <code>os.WriteFile</code></h2>
+<p><code>os.WriteFile</code> 是一個簡單的函數，它將整個資料寫入到檔案。如果檔案不存在，它會自動創建該檔案，並覆蓋已存在的檔案。</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Hello, World!\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">WriteFile</span><span class="p">(</span><span class="s">&quot;example.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="mo">0644</span><span class="p">)</span><span class="w"> </span><span class="c1">// 0644 是檔案權限</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;寫入檔案時發生錯誤:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;檔案寫入成功&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2>2. 使用 <code>os.Create</code></h2>
+<p><code>os.Create</code> 函數會創建一個新的檔案，如果檔案已經存在，則清空該檔案。這個方法適合於你希望每次寫入時都覆蓋舊內容的情況。</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">file</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="s">&quot;example.txt&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;創建檔案時發生錯誤:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">file</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">file</span><span class="p">.</span><span class="nx">WriteString</span><span class="p">(</span><span class="s">&quot;Hello, World!\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;寫入檔案時發生錯誤:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;檔案寫入成功&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2>3. 使用 <code>bufio</code> 和 <code>os.Create</code>（適用於多次寫入）</h2>
+<p>如果你需要對同一個檔案進行多次寫入，可以結合 <code>bufio.Writer</code> 和 <code>os.Create</code> 使用。這適合於需要多次、批量寫入的情況，因為 <code>bufio.Writer</code> 提供了緩衝區，可以提升寫入性能。</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;bufio&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">file</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="s">&quot;example.txt&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;創建檔案時發生錯誤:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">file</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">writer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufio</span><span class="p">.</span><span class="nx">NewWriter</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">writer</span><span class="p">.</span><span class="nx">WriteString</span><span class="p">(</span><span class="s">&quot;Hello, World!\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;寫入檔案時發生錯誤:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 刷新緩衝區，確保所有資料都寫入檔案</span>
+<span class="w">    </span><span class="nx">writer</span><span class="p">.</span><span class="nx">Flush</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;檔案寫入成功&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>os.Openfile 用法</h1>
+<p><code>func OpenFile(name string, flag int, perm FileMode) (*File, error)</code></p>
+<p>參數分別為: 檔案路徑、檔案打開方式、控制文件模式</p>
+<ul>
+<li>flag 選項<ul>
+<li><code>O_RDONLY</code> 、<code>O_WRONLY</code>、 <code>O_RDWR</code>，至少要有一個</li>
+<li><code>O_RDONLY</code> : 只可讀</li>
+<li><code>O_WRONLY</code> : 只可寫</li>
+<li><code>O_RDWR</code> : 可讀可寫</li>
+<li><code>O_APPEND</code> : 追加內容</li>
+<li><code>O_CREATE</code> : 如果文件不存在，創建文件</li>
+<li><code>O_EXCL</code> : 如果檔案存在，則創建檔案失敗</li>
+<li><code>O_SYNC</code> : 打開一個同步的文件流</li>
+<li><code>O_TRUNC</code> : 如果可能，打開時縮短文件</li>
+</ul>
+</li>
+</ul>
+<h2><code>O_CREATE</code> &amp; <code>O_EXCL</code></h2>
+<p>如果文件存在</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">Openfile</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">O_CREATE</span><span class="o">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">RDWR</span><span class="p">)</span><span class="w"> </span><span class="c1">// 打開成功，返回一個大於 0 的 fd</span>
+<span class="nx">Openfile</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">O_CREATE</span><span class="o">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">EXCL</span><span class="o">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">RDWR</span><span class="p">)</span><span class="w"> </span><span class="c1">// 打開失敗，返回 -1</span>
+</code></pre></div>
+
+<p><code>O_EXCL</code>表示的是，如果使用 <code>O_CREATE</code> 時檔案存在，就返回錯誤訊息，他可以測試文件是否存在。</p>
+<h1>附加內容在檔案後面</h1>
+<p>開啟指定路徑的檔案，如果檔案不存在則會創建一個新檔案，並將字串附加到檔案的末尾</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">file_manager</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">WriteFile</span><span class="p">(</span><span class="nx">filePath</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 開啟檔案，並設定為附加模式</span>
+<span class="w">    </span><span class="nx">file</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">OpenFile</span><span class="p">(</span><span class="nx">filePath</span><span class="p">,</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">O_APPEND</span><span class="o">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">O_WRONLY</span><span class="o">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">O_CREATE</span><span class="p">,</span><span class="w"> </span><span class="mo">0644</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Error opening file:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">os</span><span class="p">.</span><span class="nx">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">file</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="w">    </span><span class="c1">// 將字串寫入檔案</span>
+<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">file</span><span class="p">.</span><span class="nx">WriteString</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Error writing to file:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">os</span><span class="p">.</span><span class="nx">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>權限</h1>
+<p><strong>單一一組權限所有可能組合 :</strong></p>
+<table>
+<thead>
+<tr>
+<th>權限組合</th>
+<th>符號</th>
+<th>八進位值</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>讀取寫入執行</td>
+<td>rwx</td>
+<td>7</td>
+<td>有讀取、寫入和執行權限</td>
+</tr>
+<tr>
+<td>讀取寫入</td>
+<td>rw-</td>
+<td>6</td>
+<td>有讀取和寫入權限，沒有執行權限</td>
+</tr>
+<tr>
+<td>讀取執行</td>
+<td>r-x</td>
+<td>5</td>
+<td>有讀取和執行權限，沒有寫入權限</td>
+</tr>
+<tr>
+<td>只讀取</td>
+<td>r--</td>
+<td>4</td>
+<td>只有讀取權限，沒有寫入和執行權限</td>
+</tr>
+<tr>
+<td>寫入執行</td>
+<td>-wx</td>
+<td>3</td>
+<td>有寫入和執行權限，沒有讀取權限</td>
+</tr>
+<tr>
+<td>只寫入</td>
+<td>-w-</td>
+<td>2</td>
+<td>只有寫入權限，沒有讀取和執行權限</td>
+</tr>
+<tr>
+<td>只執行</td>
+<td>--x</td>
+<td>1</td>
+<td>只有執行權限，沒有讀取和寫入權限</td>
+</tr>
+<tr>
+<td>無任何權限</td>
+<td>---</td>
+<td>0</td>
+<td>沒有讀取、寫入和執行權限</td>
+</tr>
+</tbody>
+</table>
+<p><strong>全部三組權限所有可能組合 :</strong></p>
+<p>八進位數字(八進位數字以0開頭)</p>
+<p>也就是Go語言存取檔案時會用到的代碼。</p>
+<table>
+<thead>
+<tr>
+<th>權限 (全部三組)</th>
+<th>符號</th>
+<th>八進位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>owner: 讀取、group: 讀取、other: 讀取</td>
+<td>-r--r--r--</td>
+<td>0444</td>
+</tr>
+<tr>
+<td>owner: 寫入、group: 寫入、other: 寫入</td>
+<td>-w--w--w--</td>
+<td>0222</td>
+</tr>
+<tr>
+<td>owner: 執行、group: 執行、other: 執行</td>
+<td>--x--x--x</td>
+<td>0111</td>
+</tr>
+<tr>
+<td>owner: 讀取、寫入、執行、group: 讀取、寫入、other: 執行</td>
+<td>-rwxrw--x</td>
+<td>0763</td>
+</tr>
+<tr>
+<td>owner: 讀取、寫入、group: 讀取、寫入、other: 讀取、寫入</td>
+<td>-rw-rw-rw-</td>
+<td>0666</td>
+</tr>
+<tr>
+<td>owner: 讀取、寫入、執行、group: 讀取、寫入、執行、other: 讀取、寫入、執行</td>
+<td>-rwxrwxrwx</td>
+<td>0777</td>
+</tr>
+</tbody>
+</table>
+<h1>參考</h1>
+<ol>
+<li><a href="https://ithelp.ithome.com.tw/articles/10335987?sc=rss.iron">https://ithelp.ithome.com.tw/articles/10335987?sc=rss.iron</a></li>
+<li><a href="https://blog.csdn.net/qq_30895047/article/details/106827889">https://blog.csdn.net/qq_30895047/article/details/106827889</a></li>
+<li><a href="https://blog.csdn.net/nyist327/article/details/39612057">https://blog.csdn.net/nyist327/article/details/39612057</a></li>
+</ol>
+    </div>
+</div>
+</body>
+</html>
