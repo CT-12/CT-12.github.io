@@ -21,8 +21,8 @@
 <div class="content-container">
     <div class="content">
         <!-- 
-date: 2024-01-27 
-update: 2024-01-27
+date: 2024-01-29
+update: 2024-01-29
 Tag: 
     - Go
     - Gorm
@@ -30,6 +30,90 @@ Tag:
 -->
 <p>sqlite
 db.Model</p>
+<h1>Install</h1>
+<p>這個是 gorm 的主要套件，接下來要根據使用的資料庫安裝各自的驅動。因為我目前只有用過 sqlite，所以先寫 sqlite 的部分。</p>
+<div class="codehilite"><pre><span></span><code>go<span class="w"> </span>get<span class="w"> </span>-u<span class="w"> </span>gorm.io/gorm
+</code></pre></div>
+
+<h2>安裝 Sqlite 驅動</h2>
+<div class="codehilite"><pre><span></span><code>go<span class="w"> </span>get<span class="w"> </span>-u<span class="w"> </span>gorm.io/driver/sqlite
+</code></pre></div>
+
+<h1>Connect</h1>
+<p>連接到資料庫，如果沒有該資料庫會幫你創建一個。</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">db</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">gorm</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">sqlite</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;test.db&quot;</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">gorm</span><span class="p">.</span><span class="nx">Config</span><span class="p">{})</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatelln</span><span class="p">(</span><span class="s">&quot;Failed to connect database.&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>Create table</h1>
+<p>AutoMigrate 會檢查資料庫內有沒有這個 table，沒有的話會創建一個新的。有的話會檢查 table 的欄位跟傳進去的這個 struct 的欄位有沒有一致，沒有一致的話會幫你變成一致的。所以才需要傳一個 struct 進去，為了給他檢查 table 的欄位。</p>
+<div class="codehilite"><pre><span></span><code><span class="kd">type</span><span class="w"> </span><span class="nx">Tasl</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">gorm</span><span class="p">.</span><span class="nx">Model</span><span class="w"> </span><span class="c1">// 這行會幫你加上常用的 table 欄位</span>
+<span class="w">    </span><span class="nx">Name</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">Status</span><span class="w"> </span><span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">AutoMigrate</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">Task</span><span class="p">{})</span>
+</code></pre></div>
+
+<h1>Read</h1>
+<h2>Get one</h2>
+<div class="codehilite"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">GetOneByName</span><span class="p">(</span><span class="nx">db</span><span class="w"> </span><span class="o">*</span><span class="nx">gorm</span><span class="p">.</span><span class="nx">DB</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">Task</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="nx">Task</span>
+
+<span class="w">    </span><span class="nx">db</span><span class="p">.</span><span class="nx">Where</span><span class="p">(</span><span class="s">&quot;name = ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">).</span><span class="nx">First</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">result</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">result</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2>Get all</h2>
+<div class="codehilite"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">GetAll</span><span class="p">(</span><span class="nx">db</span><span class="w"> </span><span class="o">*</span><span class="nx">gorm</span><span class="p">.</span><span class="nx">DB</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="p">[]</span><span class="nx">Task</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">results</span><span class="w"> </span><span class="p">[]</span><span class="nx">Task</span>
+
+<span class="w">    </span><span class="nx">db</span><span class="p">.</span><span class="nx">Find</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">results</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">results</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>Update</h1>
+<div class="codehilite"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">UpdateStatusByName</span><span class="p">(</span><span class="nx">db</span><span class="w"> </span><span class="o">*</span><span class="nx">gorm</span><span class="p">.</span><span class="nx">DB</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">pending</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">pending</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">db</span><span class="p">.</span><span class="nx">Model</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">Task</span><span class="p">{}).</span><span class="nx">Where</span><span class="p">(</span><span class="s">&quot;name = ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">).</span><span class="nx">Update</span><span class="p">(</span><span class="s">&quot;status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Pending&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">db</span><span class="p">.</span><span class="nx">Model</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">Task</span><span class="p">{}).</span><span class="nx">Where</span><span class="p">(</span><span class="s">&quot;name = ?&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">).</span><span class="nx">Update</span><span class="p">(</span><span class="s">&quot;status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Done&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>在這裏 <code>db.Model()</code> 的用法應該是取得 table，像範例傳入了 Task 的實例，所以他應該會取得資料庫裡 Task 的 table。這應該是用在資料庫裡有很多 table 的情況下，不知道要對哪個 table 做操作，所以先把想要做操作的 table 拿出來。</p>
+<h1>Delete</h1>
+<div class="codehilite"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">DeleteTaskByName</span><span class="p">(</span><span class="nx">db</span><span class="w"> </span><span class="o">*</span><span class="nx">gorm</span><span class="p">.</span><span class="nx">DB</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">record</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">GetOneByName</span><span class="p">(</span><span class="nx">db</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">db</span><span class="p">.</span><span class="nx">Delete</span><span class="p">(</span><span class="nx">record</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>Close database</h1>
+<p>要先取得底層的資料庫連線池，然後使用它來關掉 DB。gorm 本身是沒有給clode方法的。</p>
+<div class="codehilite"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">CloseDB</span><span class="p">(</span><span class="nx">db</span><span class="w"> </span><span class="o">*</span><span class="nx">gorm</span><span class="p">.</span><span class="nx">DB</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">sqlDB</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">DB</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="s">&quot;failed to get db&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">sqlDB</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h1>Reference</h1>
+<ol>
+<li><a href="https://gorm.io/">gorm.io</a></li>
+<li><a href="https://blog.csdn.net/cnwyt/article/details/118904882">Go中使用 SQLite 数据库(Gorm)
+</a></li>
+</ol>
     </div>
 </div>
 </body>
